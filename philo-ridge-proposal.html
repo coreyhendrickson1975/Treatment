@@ -288,10 +288,27 @@
 
   /* ── TREATMENT CARDS ── */
   .treatment-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2.5rem;
+    display: flex;
+    gap: 1.5rem;
     margin-top: 3rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 1rem;
+  }
+
+  .treatment-grid::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .treatment-grid::-webkit-scrollbar-track {
+    background: var(--light-gray);
+    border-radius: 3px;
+  }
+
+  .treatment-grid::-webkit-scrollbar-thumb {
+    background: var(--warm-gray);
+    border-radius: 3px;
   }
 
   .treatment-card {
@@ -299,6 +316,10 @@
     border-radius: 4px;
     overflow: hidden;
     box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    min-width: 380px;
+    max-width: 420px;
+    flex-shrink: 0;
+    scroll-snap-align: start;
   }
 
   .treatment-card .card-img {
@@ -443,6 +464,84 @@
   .investment-line .label { color: #3a3a3a; }
   .investment-line .amount { font-weight: 500; color: var(--dark); }
 
+  /* ── CLIENTS ── */
+  .clients-section { background: var(--white); }
+  .client-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-top: 2.5rem;
+    align-items: center;
+  }
+  .client-logo {
+    aspect-ratio: 1 / 1;
+    background: var(--light-gray);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+  .client-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: all 0.3s ease;
+  }
+  .client-logo:hover img {
+    filter: grayscale(100%);
+    opacity: 0.6;
+  }
+  .client-logo .placeholder-text {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--warm-gray);
+  }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 2.5rem;
+  }
+  .testimonial-card {
+    background: var(--white);
+    border-radius: 4px;
+    padding: 2.5rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    position: relative;
+  }
+  .testimonial-card::before {
+    content: '\201C';
+    font-family: 'Jost', sans-serif;
+    font-size: 4rem;
+    line-height: 1;
+    color: var(--light-gray);
+    position: absolute;
+    top: 1rem;
+    left: 1.5rem;
+  }
+  .testimonial-quote {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #3a3a3a;
+    margin-bottom: 1.5rem;
+    padding-top: 1.5rem;
+  }
+  .testimonial-author {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--dark);
+  }
+  .testimonial-role {
+    font-size: 0.78rem;
+    color: var(--warm-gray);
+    margin-top: 0.2rem;
+  }
+
   /* ── ABOUT / FOOTER ── */
   .about-section {
     background: var(--dark);
@@ -540,7 +639,10 @@
 
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
-    .treatment-grid { grid-template-columns: 1fr; }
+    .treatment-grid { min-width: 0; }
+    .treatment-card { min-width: 280px; max-width: 320px; }
+    .client-grid { grid-template-columns: repeat(2, 1fr); }
+    .testimonials-grid { grid-template-columns: 1fr; }
     .about-inner { grid-template-columns: 1fr; }
     .timeline-item { grid-template-columns: 1fr; gap: 0.3rem; }
     .image-grid { grid-template-columns: repeat(2, 1fr); }
@@ -554,7 +656,8 @@
     .hero { height: auto; min-height: 400px; page-break-after: always; }
     section { padding: 2rem 1in; }
     .media-break { height: 250px; page-break-before: avoid; }
-    .treatment-grid { grid-template-columns: 1fr; }
+    .treatment-grid { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .treatment-card { min-width: 100%; }
     .about-section { background: var(--dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .video-container { display: none; }
@@ -666,10 +769,9 @@
     </div>
 
     <!-- Card 5 (full width) -->
-    <div class="treatment-card" style="grid-column: 1 / -1;">
-      <div class="card-img" style="aspect-ratio: 2.35 / 1; height: auto;">
-        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        Placeholder — classes &amp; events imagery
+    <div class="treatment-card">
+      <div class="card-img" style="background: none;">
+        <img src="farmtoballet.jpg" alt="Classes and events" style="width:100%;height:100%;object-fit:cover;object-position:center 85%;">
       </div>
       <div class="card-body">
         <div class="card-number">Film 05</div>
@@ -714,6 +816,24 @@
     </div>
   </div>
 </div>
+
+<!-- ═══════════ TESTIMONIALS ═══════════ -->
+<section id="testimonials">
+  <div class="section-label">Testimonials</div>
+  <h2 class="section-title">What Clients Say</h2>
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <p class="testimonial-quote">Working with Corey Hendrickson Productions was such a phenomenal experience for our team! We sought Corey's expertise on a complex, multi-day documentary project to chronicle the lived experience of working lands entrepreneurs we serve in Vermont. Not only was the video footage and photography visually stunning, but Corey was able to connect with each person filmed, his friendly interview style putting folks at ease and allowing them to open up and share their truth. It's evident how much Corey cares about sharing stories authentically and with respect. We couldn't be happier with the outcome of our video, and feel that we've finally been able to create a piece that captures our why.</p>
+      <div class="testimonial-author">Mariah Noth</div>
+      <div class="testimonial-role">VHCB</div>
+    </div>
+    <div class="testimonial-card">
+      <p class="testimonial-quote">[Client testimonial text here]</p>
+      <div class="testimonial-author">[Client Name]</div>
+      <div class="testimonial-role">[Title, Organization]</div>
+    </div>
+  </div>
+</section>
 
 <!-- ═══════════ DELIVERABLES ═══════════ -->
 <section id="deliverables">
@@ -834,6 +954,22 @@
   <p style="margin-top: 1.5rem; font-size: 0.82rem; color: var(--warm-gray);">
     Optional seasonal shoots and the June speaker summit can be quoted separately based on scope and schedule. Travel and accommodation expenses for on-site days, if applicable, are billed at cost.
   </p>
+</section>
+
+<!-- ═══════════ CLIENTS ═══════════ -->
+<section class="clients-section" id="clients">
+  <div class="section-label">Select Clients</div>
+  <h2 class="section-title">Trusted By</h2>
+  <div class="client-grid">
+    <div class="client-logo"><img src="logos/GMFTS.jpeg" alt="GMFTS"></div>
+    <div class="client-logo"><img src="logos/cabot.png" alt="Cabot"></div>
+    <div class="client-logo"><img src="logos/intervalecenter.png" alt="Intervale Center"></div>
+    <div class="client-logo"><img src="logos/landolakes.png" alt="Land O'Lakes"></div>
+    <div class="client-logo"><img src="logos/rollingbalefarm.png" alt="Rolling Bale Farm"></div>
+    <div class="client-logo"><img src="logos/vermontway.png" alt="Vermont Way"></div>
+    <div class="client-logo"><img src="logos/vhcb.png" alt="VHCB"></div>
+    <div class="client-logo"><img src="logos/vtsoy.jpeg" alt="Vermont Soy"></div>
+  </div>
 </section>
 
 <!-- ═══════════ ABOUT ═══════════ -->
